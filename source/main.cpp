@@ -92,6 +92,12 @@ bool createBoard(int board[9][9], int x, int y) {
 	}
 	return true;
 }
+bool takeAwayFields(int board[9][9], int count) {
+	for (int i = 0; i < count; i++) {
+		board[rand() % 9][rand() % 9] = 0;
+	}
+	return true;
+}
 int main(int argc, char **argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING); //init sdl
@@ -100,6 +106,7 @@ int main(int argc, char **argv)
 	romfsInit();
 	loadTextures();
 	createBoard(sudoku, 0, 0);
+	takeAwayFields(sudoku, 25);
 	memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int)); // int is a POD
     // Main loop
     while(appletMainLoop())
@@ -123,6 +130,7 @@ int main(int argc, char **argv)
 				}
 			}
 			createBoard(sudoku, 0, 0);
+			takeAwayFields(sudoku, 25);
 			memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int));
 		}
 		if (kDown & KEY_A) {
