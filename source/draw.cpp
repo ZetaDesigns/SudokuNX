@@ -2,7 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include "draw.hpp"
 #include "switch.h"
-
+#include "field.hpp"
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* textures[10];
@@ -85,4 +85,28 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
 		SDL_QueryTexture(tex, NULL, NULL, &dest.w, &dest.h); //if w and h not set get texture w and h
 	}
 	SDL_RenderCopy(ren, tex, NULL, &dest); // render the texture
+}
+
+void drawLine(SDL_Renderer* renderer, int x, int y, int w, int h, Uint8 r, Uint8 g, Uint8 b, Uint8 a) { //funtion to draw a line x, y, w, h, with a rgb color of red, green, blue, alpha  
+	SDL_SetRenderDrawColor(renderer, r, g, b, a); //set the render color to r,g,b,a
+	SDL_RenderDrawLine(renderer, x, y, w, h); //draw the line
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0); //set the render color back to transparent
+}
+
+void drawGrid() {
+	int r = 42;
+	int g = 42;
+	int b = 42;
+
+	drawLine(renderer, fieldZeroX, fieldZeroY, fieldZeroX + (9 * tileLength), fieldZeroY, r, g, b);
+	drawLine(renderer, fieldZeroX, fieldZeroY, fieldZeroX, fieldZeroY + (9 * tileLength), r, g, b);
+	drawLine(renderer, fieldZeroX, fieldZeroY + (9 * tileLength), fieldZeroX + (9 * tileLength), fieldZeroY + (9 * tileLength), r, g, b);
+	drawLine(renderer, fieldZeroX + (9 * tileLength), fieldZeroY, fieldZeroX + (9 * tileLength), fieldZeroY + (9 * tileLength), r, g, b);
+
+	for(int i = 0; i < 9; i++) {
+		drawLine(renderer, fieldZeroX, fieldZeroY + i * tileLength, fieldZeroX + (9 * tileLength), fieldZeroY + i * tileLength, r, g, b);
+	}
+	for (int i = 0; i < 9; i++) {
+		drawLine(renderer, fieldZeroX + i * tileLength, fieldZeroY, fieldZeroX + i * tileLength, fieldZeroY + (9 * tileLength), r, g, b);
+	}
 }

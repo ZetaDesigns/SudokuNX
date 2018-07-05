@@ -8,6 +8,7 @@
 
 #include <switch.h>
 #include "draw.hpp"
+#include "field.hpp"
 
 int playerPosX = 0;
 int playerPosY = 0;
@@ -91,6 +92,7 @@ int main(int argc, char **argv)
 
 		SDL_RenderClear(renderer);
 		renderTexture(mainTexture, renderer, 0, 0, 1280, 720);
+		drawGrid();
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				int index = sudokuedit[y][x];
@@ -98,11 +100,11 @@ int main(int argc, char **argv)
 					continue;
 				}
 				else {
-					renderTexture(textures[index], renderer, 410 + (x * 49), 138 + (y * 49), -1, -1);
+					renderTexture(textures[index], renderer, fieldZeroX + (x * tileLength), fieldZeroY + (y * tileLength), -1, -1);
 				}
 			}
 		}
-		renderTexture(frameTexture, renderer, 410+(playerPosX * 49), 138 + (playerPosY * 49), -1, -1);
+		renderTexture(frameTexture, renderer, fieldZeroX+(playerPosX * tileLength), fieldZeroY + (playerPosY * tileLength), -1, -1);
 		SDL_RenderPresent(renderer); //show renderer on screen
     }
 

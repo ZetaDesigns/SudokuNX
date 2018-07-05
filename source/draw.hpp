@@ -31,3 +31,7 @@ extern SDL_Texture* frameTexture;
 extern void loadTextures();
 
 extern void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h);
+
+extern void drawGrid();
+
+extern void drawLine(SDL_Renderer* renderer, int x, int y, int w, int h, Uint8 r = 0, Uint8 g = 255, Uint8 b = 0, Uint8 a = 255);

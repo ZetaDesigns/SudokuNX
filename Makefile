@@ -37,6 +37,9 @@ DATA		:=	data
 INCLUDES	:=	include
 EXEFS_SRC	:=	exefs_src
 ROMFS		:=	romfs
+APP_TITLE	:=  SudokuNX
+APP_AUTHOR	:=  Zeta
+APP_DESCRIPTION     :=	A Sudoku game for the Nintendo Switch
 
 #---------------------------------------------------------------------------------
 # options for code generation
