@@ -98,15 +98,33 @@ void drawGrid() {
 	int g = 42;
 	int b = 42;
 
+	//outline
 	drawLine(renderer, fieldZeroX, fieldZeroY, fieldZeroX + (9 * tileLength), fieldZeroY, r, g, b);
 	drawLine(renderer, fieldZeroX, fieldZeroY, fieldZeroX, fieldZeroY + (9 * tileLength), r, g, b);
 	drawLine(renderer, fieldZeroX, fieldZeroY + (9 * tileLength), fieldZeroX + (9 * tileLength), fieldZeroY + (9 * tileLength), r, g, b);
 	drawLine(renderer, fieldZeroX + (9 * tileLength), fieldZeroY, fieldZeroX + (9 * tileLength), fieldZeroY + (9 * tileLength), r, g, b);
+	//outline thickness
+	drawLine(renderer, fieldZeroX, fieldZeroY + 1, fieldZeroX + (9 * tileLength), fieldZeroY + 1, r, g, b);
+	drawLine(renderer, fieldZeroX + 1, fieldZeroY, fieldZeroX + 1, fieldZeroY + (9 * tileLength), r, g, b);
+	drawLine(renderer, fieldZeroX, fieldZeroY + (9 * tileLength) + 1, fieldZeroX + (9 * tileLength), fieldZeroY + (9 * tileLength) + 1, r, g, b);
+	drawLine(renderer, fieldZeroX + (9 * tileLength) + 1, fieldZeroY, fieldZeroX + (9 * tileLength) + 1, fieldZeroY + (9 * tileLength), r, g, b);
 
 	for(int i = 0; i < 9; i++) {
-		drawLine(renderer, fieldZeroX, fieldZeroY + i * tileLength, fieldZeroX + (9 * tileLength), fieldZeroY + i * tileLength, r, g, b);
+		if (i == 3 || i == 6) {
+			drawLine(renderer, fieldZeroX, fieldZeroY + i * tileLength, fieldZeroX + (9 * tileLength), fieldZeroY + i * tileLength, r, g, b);
+			drawLine(renderer, fieldZeroX, fieldZeroY + i * tileLength + 1, fieldZeroX + (9 * tileLength), fieldZeroY + i * tileLength + 1, r, g, b);
+		}
+		else {
+			drawLine(renderer, fieldZeroX, fieldZeroY + i * tileLength, fieldZeroX + (9 * tileLength), fieldZeroY + i * tileLength, r, g, b);
+		}
 	}
 	for (int i = 0; i < 9; i++) {
-		drawLine(renderer, fieldZeroX + i * tileLength, fieldZeroY, fieldZeroX + i * tileLength, fieldZeroY + (9 * tileLength), r, g, b);
+		if (i == 3 || i == 6) {
+			drawLine(renderer, fieldZeroX + i * tileLength, fieldZeroY, fieldZeroX + i * tileLength, fieldZeroY + (9 * tileLength), r, g, b);
+			drawLine(renderer, fieldZeroX + i * tileLength + 1, fieldZeroY, fieldZeroX + i * tileLength + 1, fieldZeroY + (9 * tileLength), r, g, b);
+		}
+		else {
+			drawLine(renderer, fieldZeroX + i * tileLength, fieldZeroY, fieldZeroX + i * tileLength, fieldZeroY + (9 * tileLength), r, g, b);
+		}
 	}
 }
