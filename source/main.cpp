@@ -1,5 +1,8 @@
 #include <string.h>
 #include <stdio.h>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
 
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
@@ -12,20 +15,83 @@
 
 int playerPosX = 0;
 int playerPosY = 0;
-int sudoku[9][9] = {0,1,9, 0,0,2, 0,0,0,
-					4,7,0, 6,9,0, 0,0,1,
-					0,0,0, 4,0,0, 0,9,0,
-					
-					8,9,4, 5,0,7, 0,0,0,
-					0,0,0, 0,0,0, 0,0,0,
-					0,0,0, 2,0,1, 9,5,8,
-
-					0,5,0, 0,0,6, 0,0,0,
-					6,0,0, 0,2,8, 0,7,9,
-					0,0,0, 1,0,0, 8,6,0};
+int sudoku[9][9];
 int sudokuedit[9][9];
 bool isEditable;
 
+std::vector<int> findRemaining(int board[9][9], int x, int y) {
+
+	std::vector<int> remaining;
+
+	int quadX = x / 3;
+	int quadY = y / 3;
+
+	for (int i = 1; i <= 9; i++) {
+		remaining.push_back(i);
+	}
+	for (int rowItem = 0; rowItem < 9; rowItem++) {
+		for (int i = 0; i < remaining.size(); i++) {
+			if (remaining[i] == board[rowItem][x]) {
+				remaining.erase(remaining.begin() + i);
+			}
+		}
+		for (int i = 0; i < remaining.size(); i++) {
+			if (remaining[i] == board[y][rowItem]) {
+				remaining.erase(remaining.begin() + i);
+			}
+		}
+	}
+
+	for (int k = 0; k < 3; k++) {
+		for (int l = 0; l < 3; l++) {
+			for (int i = 0; i < remaining.size(); i++) {
+				if (remaining[i] == sudoku[quadY * 3 + k][quadX * 3 + l]) {
+					remaining.erase(remaining.begin() + i);
+				}
+			}
+		}
+	}
+
+	return remaining;
+}
+
+bool createBoard(int board[9][9], int x, int y) {
+	std::vector<int> fields = findRemaining(board, x, y);
+	while (true) {
+		if (fields.size() == 0) {
+			return false;
+		}
+		int randomNumber = rand() % fields.size();
+		int insert = fields[randomNumber];
+
+		int newX = x;
+		int newY = y;
+
+		if (x == 8) {
+			newX = 0;
+			newY++;
+		}
+		else {
+			newX++;
+			newY = y;
+		}
+		board[y][x] = insert;
+		if (newY == 9) {
+			return true;
+		}
+
+		bool result = createBoard(board, newX, newY);
+
+		if (result == false) {
+			fields.erase(fields.begin() + randomNumber);
+			board[y][x] = 0;
+		}
+		else {
+			return true;
+		}
+	}
+	return true;
+}
 int main(int argc, char **argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING); //init sdl
@@ -33,6 +99,7 @@ int main(int argc, char **argv)
 	TTF_Init();
 	romfsInit();
 	loadTextures();
+	createBoard(sudoku, 0, 0);
 	memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int)); // int is a POD
     // Main loop
     while(appletMainLoop())
@@ -48,6 +115,15 @@ int main(int argc, char **argv)
 		isEditable = false;
 		if (sudoku[playerPosY][playerPosX] == 0) {
 			isEditable = true;
+		}
+		if (kDown & KEY_X) {
+			for (int f = 0; f < 9; f++) {
+				for (int g = 0; g < 9; g++) {
+					sudoku[f][g] = 0;
+				}
+			}
+			createBoard(sudoku, 0, 0);
+			memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int));
 		}
 		if (kDown & KEY_A) {
 			if (isEditable) {
