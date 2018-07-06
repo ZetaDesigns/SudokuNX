@@ -4,6 +4,7 @@
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern SDL_Texture* textures[10];
+extern SDL_Texture* texturesedit[10];
 extern SDL_Surface* mainImage;
 extern SDL_Texture* mainTexture;
 
@@ -24,6 +25,24 @@ extern SDL_Surface* sevenImage;
 extern SDL_Surface* eightImage;
 
 extern SDL_Surface* nineImage;
+
+extern SDL_Surface* oneeditImage;
+
+extern SDL_Surface* twoeditImage;
+
+extern SDL_Surface* threeeditImage;
+
+extern SDL_Surface* foureditImage;
+
+extern SDL_Surface* fiveeditImage;
+
+extern SDL_Surface* sixeditImage;
+
+extern SDL_Surface* seveneditImage;
+
+extern SDL_Surface* eighteditImage;
+
+extern SDL_Surface* nineeditImage;
 
 extern SDL_Surface* frameImage;
 extern SDL_Texture* frameTexture;

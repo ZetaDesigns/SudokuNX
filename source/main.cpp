@@ -183,8 +183,11 @@ int main(int argc, char **argv)
 				if (index == 0) {
 					continue;
 				}
-				else {
+				else if (sudokuedit[y][x] == sudoku[y][x]) {
 					renderTexture(textures[index], renderer, fieldZeroX + (x * tileLength), fieldZeroY + (y * tileLength), -1, -1);
+				}
+				else {
+					renderTexture(texturesedit[index], renderer, fieldZeroX + (x * tileLength), fieldZeroY + (y * tileLength), -1, -1);
 				}
 			}
 		}

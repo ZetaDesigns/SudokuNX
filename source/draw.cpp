@@ -3,10 +3,11 @@
 #include "draw.hpp"
 #include "switch.h"
 #include "field.hpp"
+
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Texture* textures[10];
-
+SDL_Texture* texturesedit[10];
 SDL_Surface* mainImage;
 SDL_Texture* mainTexture;
 
@@ -21,13 +22,30 @@ SDL_Surface* fourImage;
 SDL_Surface* fiveImage;
 
 SDL_Surface* sixImage;
-SDL_Texture* sixTexture;
 
 SDL_Surface* sevenImage;
 
 SDL_Surface* eightImage;
 
 SDL_Surface* nineImage;
+
+SDL_Surface* oneeditImage;
+
+SDL_Surface* twoeditImage;
+
+SDL_Surface* threeeditImage;
+
+SDL_Surface* foureditImage;
+
+SDL_Surface* fiveeditImage;
+
+SDL_Surface* sixeditImage;
+
+SDL_Surface* seveneditImage;
+
+SDL_Surface* eighteditImage;
+
+SDL_Surface* nineeditImage;
 
 SDL_Surface* frameImage;
 SDL_Texture* frameTexture;
@@ -67,6 +85,33 @@ void loadTextures() {
 
 	nineImage = IMG_Load("romfs:/9.png");
 	textures[9] = SDL_CreateTextureFromSurface(renderer, nineImage);
+	
+	oneeditImage = IMG_Load("romfs:/1edit.png");
+	texturesedit[1] = SDL_CreateTextureFromSurface(renderer, oneeditImage);
+
+	twoeditImage = IMG_Load("romfs:/2edit.png");
+	texturesedit[2] = SDL_CreateTextureFromSurface(renderer, twoeditImage);
+
+	threeeditImage = IMG_Load("romfs:/3edit.png");
+	texturesedit[3] = SDL_CreateTextureFromSurface(renderer, threeeditImage);
+
+	foureditImage = IMG_Load("romfs:/4edit.png");
+	texturesedit[4] = SDL_CreateTextureFromSurface(renderer, foureditImage);
+
+	fiveeditImage = IMG_Load("romfs:/5edit.png");
+	texturesedit[5] = SDL_CreateTextureFromSurface(renderer, fiveeditImage);
+
+	sixeditImage = IMG_Load("romfs:/6edit.png");
+	texturesedit[6] = SDL_CreateTextureFromSurface(renderer, sixeditImage);
+
+	seveneditImage = IMG_Load("romfs:/7edit.png");
+	texturesedit[7] = SDL_CreateTextureFromSurface(renderer, seveneditImage);
+
+	eighteditImage = IMG_Load("romfs:/8edit.png");
+	texturesedit[8] = SDL_CreateTextureFromSurface(renderer, eighteditImage);
+
+	nineeditImage = IMG_Load("romfs:/9edit.png");
+	texturesedit[9] = SDL_CreateTextureFromSurface(renderer, nineeditImage);
 
 	frameImage = IMG_Load("romfs:/frame.png");
 	frameTexture = SDL_CreateTextureFromSurface(renderer, frameImage);
@@ -84,9 +129,8 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
 	if (w == -1 || h == -1) {
 		SDL_QueryTexture(tex, NULL, NULL, &dest.w, &dest.h); //if w and h not set get texture w and h
 	}
-	SDL_RenderCopy(ren, tex, NULL, &dest); // render the texture
+	SDL_RenderCopy(ren, tex, NULL, &dest); // render the texture}
 }
-
 void drawLine(SDL_Renderer* renderer, int x, int y, int w, int h, Uint8 r, Uint8 g, Uint8 b, Uint8 a) { //funtion to draw a line x, y, w, h, with a rgb color of red, green, blue, alpha  
 	SDL_SetRenderDrawColor(renderer, r, g, b, a); //set the render color to r,g,b,a
 	SDL_RenderDrawLine(renderer, x, y, w, h); //draw the line
