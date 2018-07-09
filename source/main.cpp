@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include <time.h>
 
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
@@ -18,6 +19,16 @@ int playerPosY = 0;
 int sudoku[9][9];
 int sudokuedit[9][9];
 bool isEditable;
+bool isSolved;
+
+time_t unixTime = time(NULL);
+struct tm* timeStruct = gmtime((const time_t *)&unixTime);//Gets UTC time. Currently localtime() will also return UTC (timezones not supported).
+
+int hours = timeStruct->tm_hour;
+int minutes = timeStruct->tm_min;
+int seconds = timeStruct->tm_sec;
+
+int randseed = seconds + 60 * minutes + 60 * 60 * hours;
 
 std::vector<int> findRemaining(int board[9][9], int x, int y) {
 
@@ -92,14 +103,72 @@ bool createBoard(int board[9][9], int x, int y) {
 	}
 	return true;
 }
+
 bool takeAwayFields(int board[9][9], int count) {
 	for (int i = 0; i < count; i++) {
 		board[rand() % 9][rand() % 9] = 0;
 	}
 	return true;
 }
+
+bool solved(int board[9][9]) {
+	std::vector<int> rowItems;
+	std::vector<int> columnItems;
+	std::vector<int> quadItems;
+
+	for (int rowItem = 0; rowItem < 9; rowItem++) {
+		for (int i = 0; i < 9; i++) {
+			rowItems.push_back(board[i][rowItem]);
+		}
+		for (int i = 1; i <= 9; i++) {
+			if (std::find(rowItems.begin(), rowItems.end(), i) != rowItems.end()) {
+				continue;
+			}
+			else {
+				return false;
+			}
+		}
+		rowItems.clear();
+	}
+	for (int columnItem = 0; columnItem < 9; columnItem++) {
+		for (int i = 0; i < 9; i++) {
+			columnItems.push_back(board[columnItem][i]);
+		}
+		for (int i = 1; i <= 9; i++) {
+			if (std::find(columnItems.begin(), columnItems.end(), i) != columnItems.end()) {
+				continue;
+			}
+			else {
+				return false;
+			}
+		}
+		columnItems.clear();
+	}
+
+    for (int k = 0; k < 3; k++) {
+        for (int l = 0; l < 3; l++) {
+            for (int i = 0; i < 3; i++) {
+                for (int f = 0; f < 3; f++) {
+                    quadItems.push_back(board[k * 3 + i][l * 3 + f]);
+                }
+            }
+            for (int i = 1; i <= 9; i++) {
+                if (std::find(quadItems.begin(), quadItems.end(), i) != quadItems.end()) {
+                    continue;
+                }
+                else {
+                    return false;
+                }
+            }
+            quadItems.clear();
+        }
+    }
+
+	return true;
+}
 int main(int argc, char **argv)
 {
+	srand(randseed);
 	SDL_Init(SDL_INIT_EVERYTHING); //init sdl
 	IMG_Init(IMG_INIT_PNG); //init image lib
 	TTF_Init();
@@ -123,6 +192,12 @@ int main(int argc, char **argv)
 		if (sudoku[playerPosY][playerPosX] == 0) {
 			isEditable = true;
 		}
+		if (solved(sudokuedit)) {
+			isSolved = true;
+			for (int i = 0; i < 10; i++) {
+				SDL_SetTextureColorMod(texturesedit[i], 18, 226, 35);
+			}
+		}
 		if (kDown & KEY_X) {
 			for (int f = 0; f < 9; f++) {
 				for (int g = 0; g < 9; g++) {
@@ -132,8 +207,11 @@ int main(int argc, char **argv)
 			createBoard(sudoku, 0, 0);
 			takeAwayFields(sudoku, 25);
 			memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int));
+			for (int i = 0; i < 10; i++) {
+				SDL_SetTextureColorMod(texturesedit[i], 42, 42, 42);
+			}
 		}
-		if (kDown & KEY_A) {
+		if (kDown & KEY_A && isSolved == false) {
 			if (isEditable) {
 				if (sudokuedit[playerPosY][playerPosX] >= 9) {
 					continue;
@@ -143,7 +221,7 @@ int main(int argc, char **argv)
 				}
 			}
 		}
-		if (kDown & KEY_B) {
+		if (kDown & KEY_B && isSolved == false) {
 			if (isEditable) {
 				if (sudokuedit[playerPosY][playerPosX] <= 0) {
 					continue;
