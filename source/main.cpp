@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 	romfsInit();
 	loadTextures();
 	createBoard(sudoku, 0, 0);
-	takeAwayFields(sudoku, 25);
+	takeAwayFields(sudoku, 40);
 	memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int)); // int is a POD
     // Main loop
     while(appletMainLoop())
@@ -204,11 +204,12 @@ int main(int argc, char **argv)
 					sudoku[f][g] = 0;
 				}
 			}
+			isSolved = false;
 			createBoard(sudoku, 0, 0);
 			takeAwayFields(sudoku, 25);
 			memcpy(sudokuedit, sudoku, 9 * 9 * sizeof(int));
 			for (int i = 0; i < 10; i++) {
-				SDL_SetTextureColorMod(texturesedit[i], 42, 42, 42);
+				SDL_SetTextureColorMod(texturesedit[i], 255, 255, 255);
 			}
 		}
 		if (kDown & KEY_A && isSolved == false) {

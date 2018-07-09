@@ -40,7 +40,7 @@ ROMFS		:=	romfs
 APP_TITLE	:=  SudokuNX
 APP_AUTHOR	:=  Zeta
 APP_DESCRIPTION     :=	A Sudoku game for the Nintendo Switch
-
+ICON 		:= romfs/icon.jpg
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
