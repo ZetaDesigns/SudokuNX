@@ -8,7 +8,6 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
 
 #include <switch.h>
 #include "draw.hpp"
@@ -62,7 +61,6 @@ std::vector<int> findRemaining(int board[9][9], int x, int y) {
 			}
 		}
 	}
-
 	return remaining;
 }
 
@@ -277,7 +275,6 @@ int main(int argc, char **argv)
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_DestroyTexture(mainTexture);
-	Mix_CloseAudio();
 	romfsExit();
 	TTF_Quit();
 	IMG_Quit();
